@@ -519,7 +519,7 @@ function update(dt){
       for(let j=i+1;j<objs.length;j++){
         if(dead.has(j))continue;
         const b=objs[j];
-        if(!overlap(a.x,a.y,a.cr,b.x,b.y,b.cr))continue;
+        if(!overlap(a.x,a.y,a.r,b.x,b.y,b.r))continue;
         const adx=a.x-b.x,ady=a.y-b.y,adist=Math.hypot(adx,ady)||1;
         const aminDist=a.r+b.r;
         if(adist<aminDist){
