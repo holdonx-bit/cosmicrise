@@ -629,23 +629,19 @@ function drawObj(o){
     const g=ctx.createRadialGradient(-o.r*.32,-o.r*.32,0,0,0,o.r);
     g.addColorStop(0,'#fff6');g.addColorStop(.28,st.color);g.addColorStop(.82,'#0006');g.addColorStop(1,'#0009');
     ctx.beginPath();ctx.arc(0,0,o.r,0,Math.PI*2);ctx.fillStyle=g;ctx.fill();
-    // смуги поверхні
-    ctx.save();ctx.clip();ctx.shadowBlur=0;
-    [.3,.52,.71].forEach((b,k)=>{ctx.fillStyle=`rgba(0,0,0,${.07+k*.025})`;ctx.fillRect(-o.r,-o.r+b*o.r*2-o.r*.038,o.r*2,o.r*.042);});
-    ctx.restore();
   } else {
     ctx.rotate(o.rot);ctx.shadowColor=st.glow;ctx.shadowBlur=Math.max(4,o.r*.8);
     ctx.beginPath();ctx.moveTo(o.pts[0][0],o.pts[0][1]);
     for(let i=1;i<o.pts.length;i++)ctx.lineTo(o.pts[i][0],o.pts[i][1]);
-    ctx.closePath();ctx.fillStyle=o.col;ctx.fill();
-    // clip для деталей всередині форми
-    ctx.save();ctx.clip();ctx.shadowBlur=0;
+    ctx.closePath();
+    ctx.fillStyle=o.col;ctx.fill();
+    // градієнт освітлення поверх того ж шляху (без clip)
     const lg=ctx.createLinearGradient(-o.r*.7,-o.r*.7,o.r*.55,o.r*.55);
-    lg.addColorStop(0,'rgba(255,255,255,.26)');lg.addColorStop(.45,'rgba(0,0,0,0)');lg.addColorStop(1,'rgba(0,0,0,.52)');
-    ctx.fillStyle=lg;ctx.fillRect(-o.r,-o.r,o.r*2,o.r*2);
-    if(o.craters)for(const c of o.craters){ctx.beginPath();ctx.arc(c.x,c.y,c.r,0,Math.PI*2);ctx.fillStyle='rgba(0,0,0,.42)';ctx.fill();ctx.strokeStyle='rgba(255,255,255,.13)';ctx.lineWidth=c.r*.3;ctx.stroke();}
-    ctx.restore();
-    ctx.shadowBlur=0;ctx.strokeStyle='rgba(255,255,255,.28)';ctx.lineWidth=1.2;
+    lg.addColorStop(0,'rgba(255,255,255,.24)');lg.addColorStop(.45,'rgba(0,0,0,0)');lg.addColorStop(1,'rgba(0,0,0,.48)');
+    ctx.fillStyle=lg;ctx.fill();
+    ctx.shadowBlur=0;
+    if(o.craters)for(const c of o.craters){ctx.beginPath();ctx.arc(c.x,c.y,c.r,0,Math.PI*2);ctx.fillStyle='rgba(0,0,0,.38)';ctx.fill();}
+    ctx.strokeStyle='rgba(255,255,255,.28)';ctx.lineWidth=1.2;
     ctx.beginPath();ctx.moveTo(o.pts[0][0],o.pts[0][1]);
     for(let i=1;i<o.pts.length;i++)ctx.lineTo(o.pts[i][0],o.pts[i][1]);
     ctx.closePath();ctx.stroke();
@@ -699,20 +695,17 @@ function drawPlayer(){
     const pg=ctx.createRadialGradient(-player.r*.32,-player.r*.32,0,0,0,player.r);
     pg.addColorStop(0,'#fff7');pg.addColorStop(.28,st.color);pg.addColorStop(.82,'#0006');pg.addColorStop(1,'#0009');
     ctx.beginPath();ctx.arc(0,0,player.r,0,Math.PI*2);ctx.fillStyle=pg;ctx.fill();
-    ctx.save();ctx.clip();ctx.shadowBlur=0;
-    [.3,.52,.71].forEach((b,k)=>{ctx.fillStyle=`rgba(0,0,0,${.07+k*.025})`;ctx.fillRect(-player.r,-player.r+b*player.r*2-player.r*.038,player.r*2,player.r*.042);});
-    ctx.restore();
   } else {
     ctx.rotate(player.rot);ctx.shadowColor=st.glow;ctx.shadowBlur=Math.max(5,player.r*1.1);
     ctx.beginPath();ctx.moveTo(player.pts[0][0],player.pts[0][1]);for(const p of player.pts)ctx.lineTo(p[0],p[1]);
-    ctx.closePath();ctx.fillStyle=st.color;ctx.fill();
-    ctx.save();ctx.clip();ctx.shadowBlur=0;
+    ctx.closePath();
+    ctx.fillStyle=st.color;ctx.fill();
     const plg=ctx.createLinearGradient(-player.r*.7,-player.r*.7,player.r*.55,player.r*.55);
-    plg.addColorStop(0,'rgba(255,255,255,.28)');plg.addColorStop(.45,'rgba(0,0,0,0)');plg.addColorStop(1,'rgba(0,0,0,.5)');
-    ctx.fillStyle=plg;ctx.fillRect(-player.r,-player.r,player.r*2,player.r*2);
-    if(player.craters)for(const c of player.craters){ctx.beginPath();ctx.arc(c.x,c.y,c.r,0,Math.PI*2);ctx.fillStyle='rgba(0,0,0,.42)';ctx.fill();ctx.strokeStyle='rgba(255,255,255,.13)';ctx.lineWidth=c.r*.3;ctx.stroke();}
-    ctx.restore();
-    ctx.shadowBlur=0;ctx.strokeStyle=st.glow+'90';ctx.lineWidth=1.5;
+    plg.addColorStop(0,'rgba(255,255,255,.26)');plg.addColorStop(.45,'rgba(0,0,0,0)');plg.addColorStop(1,'rgba(0,0,0,.5)');
+    ctx.fillStyle=plg;ctx.fill();
+    ctx.shadowBlur=0;
+    if(player.craters)for(const c of player.craters){ctx.beginPath();ctx.arc(c.x,c.y,c.r,0,Math.PI*2);ctx.fillStyle='rgba(0,0,0,.38)';ctx.fill();}
+    ctx.strokeStyle=st.glow+'90';ctx.lineWidth=1.5;
     ctx.beginPath();ctx.moveTo(player.pts[0][0],player.pts[0][1]);for(const p of player.pts)ctx.lineTo(p[0],p[1]);
     ctx.closePath();ctx.stroke();
   }
