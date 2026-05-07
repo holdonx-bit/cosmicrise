@@ -480,7 +480,7 @@ function update(dt){
     for(let i=0;i<objs.length;i++){
       if(dead.has(i))continue;
       const o=objs[i];
-      if(!overlap(player.x,player.y,player.cr,o.x,o.y,o.cr)&&!swept(opx,opy,player.x,player.y,player.cr,o.x,o.y,o.cr))continue;
+      if(!overlap(player.x,player.y,player.cr,o.x,o.y,o.r)&&!swept(opx,opy,player.x,player.y,player.cr,o.x,o.y,o.r))continue;
       if(player.mass>=o.mass*1.1){
         if(!dead.has(i)){dead.add(i);if(breakObject(o,player,addObjs)===null)return;}
         continue;
